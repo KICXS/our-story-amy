@@ -104,6 +104,27 @@
     .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: .45rem; width: min(100%, 19rem); margin: 0 auto; }
     .key { min-height: 2.9rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--glass); font-weight: 700; }
     .code-display { height: 2.6rem; letter-spacing: .4em; font-size: 1.3rem; text-align: center; color: var(--accent); }
+    .reference-lock { color: #71304f; background: linear-gradient(145deg, #fffaf3, #f8e9df); }
+    .reference-lock::before { background: radial-gradient(circle at 50% 35%, rgba(255,255,255,.82), transparent 38%), radial-gradient(circle at 90% 80%, rgba(255,190,192,.18), transparent 32%); }
+    .reference-lock::after { opacity: .06; mix-blend-mode: multiply; }
+    .reference-lock .muted { color: #806b78; }
+    .reference-lock .eyebrow { color: #d94382; letter-spacing: .2em; }
+    .reference-top { display: grid; grid-template-columns: 3rem 1fr 3rem; align-items: center; gap: .75rem; width: 100%; }
+    .reference-circle { width: 3rem; height: 3rem; border: 0; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.78); color: #6f4558; box-shadow: 0 .45rem 1.2rem rgba(117,63,75,.08); font-size: 1.4rem; }
+    .reference-label { text-align: left; text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; font-weight: 700; color: #543b47; }
+    .reference-rule { height: .16rem; margin-top: .75rem; border-radius: 99px; background: #ead9d5; position: relative; }
+    .reference-rule::before { content: ""; display: block; width: 24%; height: 100%; border-radius: inherit; background: #c86682; }
+    .reference-lock h2 { color: #9c2f5e; font-size: clamp(2.5rem, 11vw, 4rem); margin-top: .9rem; }
+    .reference-sub { max-width: 24rem; color: #806b78; font-size: 1.15rem; line-height: 1.45; }
+    .reference-door { width: min(57vw, 12.5rem); aspect-ratio: .68; margin: 1.5rem auto 1rem; border: .65rem solid #86516a; border-bottom-width: .8rem; border-radius: 48% 48% .7rem .7rem; background: linear-gradient(160deg, #bd5b79, #934360); box-shadow: 0 1.3rem 2rem rgba(112,60,78,.23), inset 0 0 .9rem rgba(255,255,255,.22); position: relative; }
+    .reference-door::before { content: ""; position: absolute; inset: .7rem .75rem 1rem; border: 1px solid rgba(255,235,237,.32); border-radius: 42% 42% .2rem .2rem; }
+    .reference-door::after { content: ""; position: absolute; width: 1rem; height: 1rem; right: 12%; top: 49%; border-radius: 50%; background: #f0bf68; border: .18rem solid #733d55; box-shadow: 0 0 .6rem rgba(255,221,139,.55); }
+    .lock-dots { display: flex; justify-content: center; gap: .75rem; margin: .25rem 0 1rem; }
+    .lock-dots i { width: .75rem; height: .75rem; border: 1px solid #bd7188; border-radius: 50%; background: transparent; }
+    .lock-dots i.filled { background: #bd7188; }
+    .reference-lock .keypad { gap: .55rem; width: min(100%, 14rem); }
+    .reference-lock .key { min-height: 3.25rem; border: 1px solid #dbaeb7; border-radius: 1rem; background: rgba(255,255,255,.28); color: #684353; font-size: 1.1rem; }
+    .reference-lock .key:hover, .reference-lock .key:focus-visible { background: #ad3f6b; border-color: #ad3f6b; color: white; outline: none; }
     .scene { border-radius: 1.4rem; border: 1px solid var(--line); background: rgba(255,255,255,.08); padding: 1rem; position: relative; overflow: hidden; }
     .scene-art { min-height: 12rem; display: grid; place-items: center; position: relative; overflow: hidden; background: radial-gradient(circle at 50% 40%, rgba(255,216,157,.37), transparent 28%), linear-gradient(145deg, rgba(255,177,200,.22), rgba(79,50,104,.5)); }
     .scene-art img { width: 100%; height: 100%; min-height: 12rem; object-fit: cover; display: block; border-radius: .9rem; }
@@ -232,7 +253,8 @@
       app.innerHTML = `${particles()}<section class="screen center"><div class="spacer"></div><div class="eyebrow">Unlocked · ${escape(STORY.anniversary)}</div><h1>The wait is over.</h1><p class="muted">A little journey through us is ready.</p><div class="lock-stage"><div class="gift" style="filter:brightness(1.3)"><i class="gift-ribbon"></i><i class="gift-bow"></i></div></div><button class="btn" data-action="open">Open your surprise ✨</button><p class="date-line" style="margin-top:1rem">${escape(STORY.anniversary)} | ${escape(STORY.bsDate)}</p><div class="spacer"></div></section>`;
     }
     function renderDoor() {
-      app.innerHTML = `${particles(8)}<section class="screen center">${topbar("The first little secret", false)}<div class="spacer"></div><div class="eyebrow">Chapter 1 begins at the door</div><h2>One secret code.</h2><p class="muted">Use the date we met or our special nickname.</p><div class="door"></div><input class="code-display" id="codeDisplay" readonly aria-label="Code" value="${escape(code.replace(/./g,"•"))}"><div class="keypad">${["1","2","3","4","5","6","7","8","9","←","0","✓"].map(k=>`<button class="key" data-key="${k}">${k}</button>`).join("")}</div><p class="muted" style="font-size:.85rem;margin-top:.7rem">Hint: ${escape(STORY.metDate)}</p><div class="spacer"></div></section>`;
+      const dots = Array.from({length:4}, (_,i)=>`<i class="${code[i] ? "filled" : ""}"></i>`).join("");
+      app.innerHTML = `${particles(8)}<section class="screen center reference-lock"><div class="reference-top"><button class="reference-circle" data-action="back" aria-label="Back">←</button><div class="reference-label">The beginning<div class="reference-rule"></div></div><button class="reference-circle" data-action="sound" aria-label="Toggle sound">${soundOn?"🔊":"🔇"}</button></div><div class="spacer"></div><div class="eyebrow">Before we begin</div><h2>Only you hold the key.</h2><p class="reference-sub">Enter the date we met—or the nickname only we would know.</p><div class="reference-door" aria-hidden="true"></div><div class="lock-dots" aria-label="PIN progress">${dots}</div><div class="keypad">${["1","2","3","4","5","6","7","8","9","←","0","✓"].map(k=>`<button class="key" data-key="${k}">${k==="✓"?"OK":k}</button>`).join("")}</div><p class="muted" style="font-size:.85rem;margin-top:.7rem">Four numbers open our first chapter.</p><div class="spacer"></div></section>`;
     }
     function renderChapter() {
       const chapters = [renderChapter1, renderChapter2, renderChapter3, renderChapter4, renderChapter5];
