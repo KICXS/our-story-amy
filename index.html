@@ -203,10 +203,8 @@
     document.documentElement.style.setProperty("--accent", STORY.accentColor.startsWith("[") ? "#ffcf70" : STORY.accentColor);
     const $ = (s, root=document) => root.querySelector(s);
     const app = $("#app"), toast = $("#toast");
-    const target = Date.parse("2026-12-10T18:15:00Z");
     const params = new URLSearchParams(location.search);
-    const preview = params.get("preview") === "starlight";
-    let screen = preview || Date.now() >= target ? "welcome" : "lock";
+    let screen = "welcome";
     let chapter = 0, soundOn = true, audio, code = "", memory = null, selectedPiece = null, quizIndex = 0, hearts = 0;
     let visitedStars = [], starGameCount = 0, typingTimer, letterShown = false, photoTaps = 0;
     const showToast = (message) => { toast.textContent = message; toast.classList.add("show"); clearTimeout(showToast.t); showToast.t = setTimeout(()=>toast.classList.remove("show"), 2800); };
@@ -239,7 +237,7 @@
       updateCountdown(); clearInterval(renderLock.timer); renderLock.timer = setInterval(updateCountdown, 1000);
     }
     function updateCountdown() {
-      const diff = Math.max(0, target - Date.now());
+      const diff = 0;
       const d = Math.floor(diff/86400000), h = Math.floor(diff/3600000)%24, m = Math.floor(diff/60000)%60, s = Math.floor(diff/1000)%60;
       ["days","hours","minutes","seconds"].forEach((id,i)=>{ const el=$("#"+id); if (el) el.textContent = String([d,h,m,s][i]).padStart(2,"0"); });
       const line = $("#sweetLine"); if (line) line.textContent = STORY.sweetLines[Math.floor(Date.now()/5000)%STORY.sweetLines.length];
