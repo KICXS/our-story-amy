@@ -105,7 +105,8 @@
     .key { min-height: 2.9rem; border: 1px solid var(--line); border-radius: .7rem; background: var(--glass); font-weight: 700; }
     .code-display { height: 2.6rem; letter-spacing: .4em; font-size: 1.3rem; text-align: center; color: var(--accent); }
     .scene { border-radius: 1.4rem; border: 1px solid var(--line); background: rgba(255,255,255,.08); padding: 1rem; position: relative; overflow: hidden; }
-    .scene-art { min-height: 12rem; display: grid; place-items: center; background: radial-gradient(circle at 50% 40%, rgba(255,216,157,.37), transparent 28%), linear-gradient(145deg, rgba(255,177,200,.22), rgba(79,50,104,.5)); }
+    .scene-art { min-height: 12rem; display: grid; place-items: center; position: relative; overflow: hidden; background: radial-gradient(circle at 50% 40%, rgba(255,216,157,.37), transparent 28%), linear-gradient(145deg, rgba(255,177,200,.22), rgba(79,50,104,.5)); }
+    .scene-art img { width: 100%; height: 100%; min-height: 12rem; object-fit: cover; display: block; border-radius: .9rem; }
     .place-sign { padding: .75rem 1.15rem; border: .2rem solid #f4c18b; color: #ffe1a7; transform: rotate(-3deg); font: 700 1.4rem "Caveat", cursive; box-shadow: 0 0 .8rem rgba(255,196,125,.3); }
     .objects { display: grid; grid-template-columns: repeat(5, 1fr); gap: .45rem; margin-top: .8rem; }
     .object { min-height: 3.4rem; border: 1px solid var(--line); border-radius: .8rem; background: rgba(255,255,255,.09); font-size: 1.35rem; }
@@ -246,7 +247,7 @@
     function renderChapter1() {
       const card = memory ? `<div class="memory-card"><strong>${escape(memory[0])}</strong><p>${escape(memory[1])}</p></div>` : `<p class="muted" style="margin-top:.7rem">Tap each little object to uncover what it remembers.</p>`;
       const pieces = [1,2,3,4,5,6].map(n=>`<button class="puzzle-piece ${selectedPiece===n?'selected':''}" data-piece="${n}">${selectedPiece===n?"Placed":"Piece "+n}</button>`).join("");
-      return chapterFrame("How it began", `Where our story first found us: ${STORY.metPlace}`, `<div class="scene" style="margin-top:1rem"><div class="scene-art"><div class="place-sign">${escape(STORY.metPlace)}</div></div><div class="objects">${STORY.memories.map((m,i)=>`<button class="object" data-memory="${i}" aria-label="Memory ${i+1}">${m[0]}</button>`).join("")}</div>${card}</div><p class="muted" style="margin-top:1rem">Now assemble six tiny pieces of our photo.</p><div class="puzzle">${pieces}</div><p class="muted" style="font-size:.85rem;margin-top:.6rem">${selectedPiece===6?"All pieces are glowing — tap Continue.":"Tap pieces in order, like putting a memory back together."}</p>`);
+      return chapterFrame("How it began", `Where our story first found us: ${STORY.metPlace}`, `<div class="scene" style="margin-top:1rem"><div class="scene-art"><img src="assets/place-scene.png" alt="Illustration of the place where our story began"><div class="place-sign" style="position:absolute">${escape(STORY.metPlace)}</div></div><div class="objects">${STORY.memories.map((m,i)=>`<button class="object" data-memory="${i}" aria-label="Memory ${i+1}">${m[0]}</button>`).join("")}</div>${card}</div><p class="muted" style="margin-top:1rem">Now assemble six tiny pieces of our photo.</p><div class="puzzle">${pieces}</div><p class="muted" style="font-size:.85rem;margin-top:.6rem">${selectedPiece===6?"All pieces are glowing — tap Continue.":"Tap pieces in order, like putting a memory back together."}</p>`);
     }
     function renderChapter2() {
       const q = STORY.quiz[quizIndex] || STORY.quiz[0];
